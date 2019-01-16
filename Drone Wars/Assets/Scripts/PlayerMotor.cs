@@ -7,9 +7,6 @@ public class PlayerMotor : MonoBehaviour
 {
     private Vector3 velocity = Vector3.zero;
     private Vector3 rotation = Vector3.zero;
-    private Vector3 cameraRotation = Vector3.zero;
-
-    public Camera cam;
 
     private Rigidbody drone;
 
@@ -28,11 +25,6 @@ public class PlayerMotor : MonoBehaviour
         rotation = _rotation;
     }
 
-    public void RotateCamera(Vector3 _cameraRotation)
-    {
-        cameraRotation = _cameraRotation;
-    }
-
     private void FixedUpdate()
     {
         PerformMovement();
@@ -43,15 +35,15 @@ public class PlayerMotor : MonoBehaviour
     {
         if (velocity != Vector3.zero)
         {
-            drone.MovePosition(drone.position + velocity * Time.fixedDeltaTime);
+            drone.AddForce(velocity);
         }
     }
 
     void PerformRotation()
     {
-        drone.MoveRotation(drone.rotation * Quaternion.Euler(rotation));
-        if (cam != null) {
-            cam.transform.Rotate(-cameraRotation);
+        if (rotation != Vector3.zero)
+        {
+            drone.AddTorque(rotation);
         }
     }
 }

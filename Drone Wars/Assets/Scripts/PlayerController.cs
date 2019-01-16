@@ -5,9 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMotor))]
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
+    private float speed = 15f;
 
-    public float speed;
-    public float lookSensitivity;
+    [SerializeField]
+    private float lookSensitivity = 5f;
+
     private PlayerMotor motor;
 
     private void Start()
@@ -19,6 +22,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
+        // Movement
         float _xMov = Input.GetAxisRaw("LeftStickX");
         float _zMov = Input.GetAxisRaw("LeftStickY");
 
@@ -30,18 +34,11 @@ public class PlayerController : MonoBehaviour
         motor.Move(_velocity);
 
         // Rotation
-
         float _yRot = Input.GetAxisRaw("RightStickX");
 
         Vector3 _rotation = new Vector3(0f, _yRot, 0f) * lookSensitivity;
 
         motor.Rotate(_rotation);
-
-        float _xRot = Input.GetAxisRaw("RightStickY");
-
-        Vector3 _cameraRotation = new Vector3(_xRot, 0f, 0f) * lookSensitivity;
-
-        motor.RotateCamera(_cameraRotation);
     }
 
 }
